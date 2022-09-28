@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.CountryFragment">
+
+    <ImageView
+        android:id="@+id/countryFlag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:id="@+id/countryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="Name"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/countryCapital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:text="Capital"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/countryRegion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:text="Region"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/countryCurrency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:text="Currency"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/countryLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:text="Language"
+        android:layout_margin="8dp"
+        />
+
+
+
+
+</LinearLayout>
+
+</layout>
