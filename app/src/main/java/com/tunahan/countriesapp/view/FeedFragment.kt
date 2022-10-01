@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_feed.*
 
 class FeedFragment : Fragment() {
 
-    private lateinit var vievModel: FeedViewModel
+    private lateinit var viewModel: FeedViewModel
     private val countryAdapter = CountryAdapter(arrayListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,11 +34,19 @@ class FeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vievModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
-        vievModel.refreshData()
+        viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
+        viewModel.refreshData()
 
         recycler_view.layoutManager = LinearLayoutManager(context)
         recycler_view.adapter = countryAdapter
+
+        swipeRefreshLayout.setOnRefreshListener {
+            recycler_view.visibility = View.GONE
+            countryErrorTextView.visibility = View.GONE
+            countryLoadingProgressBar.visibility = View.VISIBLE
+            viewModel.refreshData()
+            swipeRefreshLayout.isRefreshing = false
+        }
 
         observeLiveData()
     }
@@ -46,14 +54,14 @@ class FeedFragment : Fragment() {
 
    private fun observeLiveData(){
 
-        vievModel.countries.observe(viewLifecycleOwner, Observer {
+       viewModel.countries.observe(viewLifecycleOwner, Observer {
             it?.let {
                 recycler_view.visibility = View.VISIBLE
                 countryAdapter.updateCountryList(it)
             }
         })
 
-        vievModel.countryError.observe(viewLifecycleOwner, Observer {
+       viewModel.countryError.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it){
                     countryErrorTextView.visibility = View.VISIBLE
@@ -64,7 +72,7 @@ class FeedFragment : Fragment() {
             }
         })
 
-        vievModel.countryLoading.observe(viewLifecycleOwner, Observer {
+       viewModel.countryLoading.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it){
                     countryLoadingProgressBar.visibility = View.VISIBLE
