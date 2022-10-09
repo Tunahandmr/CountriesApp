@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.get
 import com.tunahan.countriesapp.R
+import com.tunahan.countriesapp.util.downloadFromUrl
+import com.tunahan.countriesapp.util.placeHolderProgressBar
 import com.tunahan.countriesapp.view.CountryFragmentArgs
 import com.tunahan.countriesapp.viewmodel.CountryViewModel
 import kotlinx.android.synthetic.main.fragment_country.*
@@ -34,13 +36,15 @@ class CountryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
-        viewModel.getDataFromRoom()
-
-
         arguments?.let {
             myUuid = CountryFragmentArgs.fromBundle(it).countryUuid
         }
+
+        viewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
+        viewModel.getDataFromRoom(myUuid)
+
+
+
 
         observeLiveData()
     }
@@ -54,6 +58,9 @@ class CountryFragment : Fragment() {
                 countryCurrency.text = country.countryCurrency
                 countryRegion.text = country.countryRegion
                 countryLanguage.text = country.countryLanguage
+                context?.let {
+                    countryFlag.downloadFromUrl(country.imageUrl, placeHolderProgressBar(it))
+                }
             }
         })
 
