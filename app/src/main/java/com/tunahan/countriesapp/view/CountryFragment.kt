@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.get
 import com.tunahan.countriesapp.R
+import com.tunahan.countriesapp.databinding.FragmentCountryBinding
 import com.tunahan.countriesapp.util.downloadFromUrl
 import com.tunahan.countriesapp.util.placeHolderProgressBar
 import com.tunahan.countriesapp.view.CountryFragmentArgs
@@ -20,6 +22,7 @@ class CountryFragment : Fragment() {
 
     private lateinit var viewModel: CountryViewModel
     private var myUuid = 0
+    private lateinit var dataBinding : FragmentCountryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +32,9 @@ class CountryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_country, container, false)
+    ): View {
+        dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_country,container,false)
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,9 +47,6 @@ class CountryFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
         viewModel.getDataFromRoom(myUuid)
 
-
-
-
         observeLiveData()
     }
 
@@ -53,6 +54,10 @@ class CountryFragment : Fragment() {
 
         viewModel.countryLiveData.observe(viewLifecycleOwner, Observer {country->
             country?.let {
+
+                dataBinding.selectedCountry = it
+
+                /*
                 countryName.text = country.countryName
                 countryCapital.text = country.countryCapital
                 countryCurrency.text = country.countryCurrency
@@ -61,6 +66,8 @@ class CountryFragment : Fragment() {
                 context?.let {
                     countryFlag.downloadFromUrl(country.imageUrl, placeHolderProgressBar(it))
                 }
+
+                 */
             }
         })
 
